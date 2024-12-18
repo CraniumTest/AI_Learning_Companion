@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>AI-Powered Learning Companion</title>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Learning Companion</h1>
+        <form id="question-form">
+            <textarea name="query" placeholder="Ask a question"></textarea>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="response"></div>
+    </div>
+
+    <script>
+        document.getElementById('question-form').onsubmit = async function(event) {
+            event.preventDefault();
+            let queryText = event.target.query.value;
+
+            const response = await fetch('/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: queryText })
+            });
+            const result = await response.json();
+            document.getElementById('response').innerText = result.response;
+        }
+    </script>
+</body>
+</html>
